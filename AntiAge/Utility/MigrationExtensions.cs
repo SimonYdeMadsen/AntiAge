@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+using AntiAge.Data;
 
-namespace WebApplication1.Extensions
+namespace AntiAge.Utility
 {
     public static class MigrationExtensions
     {
         public static void ApplyMigrations(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<AntiAgeContext>();
-            context.Database.Migrate();
+            using var dbContext = serviceScope.ServiceProvider.GetService<AntiAgeContext>();
+            dbContext.Database.Migrate();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public partial class RecipeIngredient
 {
@@ -12,4 +12,6 @@ public partial class RecipeIngredient
     public decimal Quantity { get; set; }
 
     public string Unit { get; set; } = null!;
+
+    public virtual Recipe Recipe { get; set; } = null!;
 }

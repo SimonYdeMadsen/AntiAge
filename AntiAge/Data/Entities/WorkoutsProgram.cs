@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public partial class WorkoutsProgram
 {
@@ -18,4 +18,8 @@ public partial class WorkoutsProgram
     public string? FocusArea { get; set; }
 
     public int? CreatedBy { get; set; }
+
+    public virtual ICollection<Workout> Workouts { get; set; } = new List<Workout>();
+
+    public virtual User? Creator { get; set; }
 }

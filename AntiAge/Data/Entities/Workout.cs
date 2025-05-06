@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public partial class Workout
 {
@@ -18,4 +18,6 @@ public partial class Workout
     public int? EstimatedDuration { get; set; }
 
     public string? Instructions { get; set; }
+
+    public virtual WorkoutsProgram WorkoutsProgram { get; set; } = null!;
 }

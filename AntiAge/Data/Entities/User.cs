@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public class User : IdentityUser<int>
 {
@@ -19,4 +19,6 @@ public class User : IdentityUser<int>
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? LastLogin { get; set; }
+
+    public virtual ICollection<HealthMetric> HealthMetrics { get; set; } = new List<HealthMetric>();
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public partial class HealthMetric
 {
     public int MetricId { get; set; }
 
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     public DateOnly? DateRecorded { get; set; }
 
@@ -38,4 +38,6 @@ public partial class HealthMetric
     public int? StepsCount { get; set; }
 
     public decimal? BiologicalAge { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }

@@ -1,7 +1,7 @@
-namespace WebApplication1.Controllers.Dto;
+namespace AntiAge.Controllers.Dto;
 
 public class LoginDto
 {
-    public required string Mail { get; set; }
+    public required string Email { get; set; }
     public required string Password { get; set; }
 }

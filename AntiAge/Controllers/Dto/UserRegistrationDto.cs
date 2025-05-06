@@ -1,4 +1,4 @@
-namespace WebApplication1.Controllers.Dto;
+namespace AntiAge.Controllers.Dto;
 
 public class UserRegistrationDto
 {

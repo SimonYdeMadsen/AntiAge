@@ -1,64 +1,85 @@
-using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text;
+
+using AntiAge;
+using AntiAge.Data;
+using AntiAge.Data.Entities;
+using AntiAge.Utility;
+using AuthTest.Utility;
 using Microsoft.AspNetCore.Identity;
-using WebApplication1.Data.Entities;
-using WebApplication1.Extensions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Xml;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
 
+var serviceConfig = ServiceConfigurationExtensions.ServiceConfig.Cookie;
+builder.Services.ConfigureAuthentication(serviceConfig);
+builder.Services.ConfigureAuthorization(serviceConfig);
+builder.Services.ConfigureSwagger(serviceConfig);
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
-
+/*
+{
+"email": "admin@email.com",
+"password": "Password123!"
+}
+*/
 
 builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<AntiAgeContext>()
-    .AddApiEndpoints(); // Adds the necessary API endpoints for Identity
+    .AddApiEndpoints()
+    .AddDefaultTokenProviders();
+                
 
-//https://youtu.be/S0RSsHKiD6Y?t=409
+//builder.Services.AddScoped<IRoleStore<IdentityRole>, RoleStore<IdentityRole, AntiAgeContext>>();
+//builder.Services.AddScoped<IRoleStore<Role>, RoleStore<Role, AntiAgeContext, int>>();
+            
 
 builder.Services.AddDbContext<AntiAgeContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalSqlConnection"))  //Azure = "DefaultConnection1"
-);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure(1)
+));
 
-
-
+builder.Services.AddScoped<DataImporter>();
 
 var app = builder.Build();
-// Ensure the database schema is created (no migrations)
-using (var scope = app.Services.CreateScope())
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AntiAgeContext>();
-    context.Database.EnsureCreated();  // This will ensure the database is created without migrations
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
+    app.ApplyMigrations();
+
 }
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.ApplyMigrations();
-//}
-
-// Enables Swagger UI
-app.UseSwagger();
-app.UseSwaggerUI(options =>
+using (var scope = app.Services.CreateScope())
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-    options.RoutePrefix = string.Empty; // Optional: Makes Swagger UI accessible at root
-});
+    var services = scope.ServiceProvider;
+    //var userManager = services.GetRequiredService<UserManager<User>>();
+    //var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    //SeedRoles(services, userManager, roleManager).Wait();
+    await SeedRoles.Initialize(services, userManager, roleManager);
+
+    services.GetService<DataImporter>()!.ImportDummyData();
+}
 
 app.UseHttpsRedirection();
 
-
+app.UseAuthorization();
 
 
 app.MapControllers();
 app.MapIdentityApi<User>();
 
-
 app.Run();
+

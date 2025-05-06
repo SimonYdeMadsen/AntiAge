@@ -1,132 +1,89 @@
-//using System.Security.Claims;
-//using System.Text;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using WebApplication1.Controllers.Dto;
-//using WebApplication1.Data;
-//using WebApplication1.Data.Entities;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using AntiAge.Controllers.Dto;
+using AntiAge.Data;
+using AntiAge.Data.Entities;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
 
-//namespace WebApplication1.Controllers;
+namespace AntiAge.Controllers;
 
-//[ApiController]
-//[Route("api/users")]
-//public class UserController : ControllerBase
-//{
-//    private readonly ApplicationDbContext _context;
-//    private readonly UserManager<User> _userManager;
-//    private readonly RoleManager<IdentityRole<int>> _roleManager;
+[ApiController]
+[Route("Users")]
+public class UserController : ControllerBase
+{
+    private readonly AntiAgeContext _context;
+    private readonly UserManager<User> _userManager;
+    //private readonly RoleManager<IdentityRole<int>> _roleManager;
+    private readonly IConfiguration _configuration;
+    private readonly ILogger<UserController> _logger;
 
-//    public UserController(ApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
-//    {
-//        _context = context;
-//        _userManager = userManager;
-//        _roleManager = roleManager;
-//    }
+    public UserController(AntiAgeContext context, UserManager<User> userManager, IConfiguration configuration, ILogger<UserController> logger)
+    {
+        _context = context;
+        _userManager = userManager;
+        //_roleManager = roleManager;
+        _configuration = configuration;
+        _logger = logger;
+    }
 
-//    [HttpPost]
-//    public async Task<IActionResult> CreateUser(string name, string userName, string email, string password, string role = null)
-//    {
-//        // Check if the user already exists
-//        var existingUser = await _userManager.FindByEmailAsync(email);
-//        if (existingUser != null)
-//        {
-//            return BadRequest("User with this email already exists.");
-//        }
+    [HttpGet("viewUsers")]
+    public IActionResult ViewUsers()
+    {
+        // Return cookie?? Somehow create a session that is secure and only allow access to certain endpoints
+        if (!_context.Users.Any())
+        {
+            return Unauthorized("No users");
+        }
+        var users = _context.Users.ToList();
 
-//        // Create new user object
-//        var user = new User
-//        {
-//            //Name = name,
-//            //Password = password,
-//            UserName = userName,
-//            Email = email
-//        };
+        return users.Count > 0? Ok(users) : NotFound("No users");
+        
+    }
 
-//        // Create the user with the provided password
-//        var result = await _userManager.CreateAsync(user, password);
 
-//        if (!result.Succeeded)
-//        {
-//            // If user creation fails, return an error
-//            return BadRequest(result.Errors);
-//        }
+    [Authorize]
+    [HttpGet("getUserHealthMetrics")]
+    public async Task<ActionResult<HealthMetricDto>> GetUserHealthMetrics()
+    {
 
-//        // If a role was provided, assign the role to the user
-//        if (!string.IsNullOrEmpty(role))
-//        {
-//            var roleExists = await _roleManager.RoleExistsAsync(role);
-//            if (!roleExists)
-//            {
-//                return BadRequest("Role does not exist.");
-//            }
+        var userStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userStr) || !int.TryParse(userStr, out int userId))
+        {
+            return Unauthorized("No user ID found in token");
+        }
 
-//            var addRoleResult = await _userManager.AddToRoleAsync(user, role);
-//            if (!addRoleResult.Succeeded)
-//            {
-//                return BadRequest("Failed to assign role.");
-//            }
-//        }
+        // Debug all claims in the token
+        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+        foreach (var claim in claims)
+        {
+            Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+        }
+        //var user = _context.Users.Where(u => u.Id == userId);
 
-//        // Return success message
-//        return Ok("User created successfully.");
-//    }
 
-//    [HttpPost("login")]
-//    public IActionResult Login(LoginDto login)
-//    {
-//        //// Return cookie?? Somehow create a session that is secure and only allow access to certain endpoints
-//        //if (!context.Users.Any(u => u.Mail == login.Mail))
-//        //{
-//        //    return Unauthorized("Invalid username");
-//        //}
-//        //var user = context.Users.First(u => u.Mail == login.Mail && u.Password == login.Password);
-//        //if (user != null)
-//        //{
-//        //    var token = GenerateJwtToken(user);
-//        //    return Ok(new { token });
-//        //}
-//        return Unauthorized("Invalid password");
-//    }
+        var x = await _context.HealthMetrics.ToListAsync();
 
-//    //private string GenerateJwtToken(User user)
-//    //{
-//    //    var claims = new[] 
-//    //    {
-//    //        new Claim(ClaimTypes.Name, user.Name),
-//    //        new Claim(ClaimTypes.Email, user.Mail),
-//    //    };
+        User user = _context.Users.SingleOrDefault(u => u.Id == userId);
+        if (user is null)
+        {
+            return NotFound($"No user registered for {userId}");
+        }
 
-//    //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourVeryLongSecretKey1234567890123456")); // 256 bits
-//    //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-//    //    var token = new JwtSecurityToken(
-//    //        issuer: "yourdomain.com",
-//    //        audience: "yourdomain.com",
-//    //        claims: claims,
-//    //        expires: DateTime.Now.AddDays(1),
-//    //        signingCredentials: creds
-//    //    );
-
-//    //    return new JwtSecurityTokenHandler().WriteToken(token);
-//    //}
-
-//    [HttpGet("biomarkers")]
-//    [Authorize]
-//    public ActionResult<List<BioMarkerDto>> GetAllBioMarkersForUser()
-//    {
-//        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-
-//        return userEmail != null ? Ok(new { userEmail }) : Unauthorized("Email null");
-
-//        //return context.BioMarkers
-//        //    .Where(b => b.UsersBioMarkers.Any(ub => ub.User.Mail == mail))
-//        //    .Select(b => new BioMarkerDto
-//        //    {
-//        //        Id = b.Id,
-//        //        Name = b.Name,
-//        //        Description = b.Description
-//        //    })
-//        //    .ToList();
-//    }
-//}
+        var healthMetrics = await _context.HealthMetrics
+            .Where(m => m.UserId == userId)
+            .Select(m => new HealthMetricDto
+            {
+                UserId = userId,
+                BiologicalAge = m.BiologicalAge,
+                Bmi = m.Bmi,
+            }).ToListAsync();
+        return healthMetrics.Any() ? Ok(healthMetrics) : NotFound($"No health metrics found for ID {user.Id}");
+    }
+}

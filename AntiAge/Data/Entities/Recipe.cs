@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Data.Entities;
+namespace AntiAge.Data.Entities;
 
 public partial class Recipe
 {
@@ -30,4 +30,6 @@ public partial class Recipe
     public string? Instructions { get; set; }
 
     public string? ImageUrl { get; set; }
+
+    public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
 }
