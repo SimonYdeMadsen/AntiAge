@@ -8,8 +8,8 @@ using CsvHelper;
 using System.Globalization;
 using AntiAge.Data;
 using Microsoft.EntityFrameworkCore;
-using EFCore.BulkExtensions;
 using AntiAge.Data.Entities;
+using EFCore.BulkExtensions;
 
 namespace AntiAge
 {
@@ -40,6 +40,7 @@ namespace AntiAge
         {
             if (!_context.Set<T>().Any())
             {
+                Console.WriteLine("Assert data is sanitized.");
                 var data = ReadCsvData<T>(filePath);
                 BulkInsert(data);
             }
@@ -59,13 +60,15 @@ namespace AntiAge
             {
                 HeaderValidated = null,  // Disable header validation
                 MissingFieldFound = null, // Ignore missing fields
-                PrepareHeaderForMatch = args => args.Header.ToLower().Replace("_", "")
+                PrepareHeaderForMatch = args =>
+                {
+                    var parts = args.Header.Split('_', StringSplitOptions.RemoveEmptyEntries);
+                    return string.Concat(parts.Select(p => char.ToUpperInvariant(p[0]) + p.Substring(1)));
+                }
             }))
             {
                 records = csv.GetRecords<T>().ToList();
-                Console.WriteLine(records.ToList());
             }
-
             return records;
         }
 

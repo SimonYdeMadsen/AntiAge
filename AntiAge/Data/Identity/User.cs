@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AntiAge.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace AntiAge.Data.Entities;
+namespace AntiAge.Data.Identity;
 
 public class User : IdentityUser<int>
 {

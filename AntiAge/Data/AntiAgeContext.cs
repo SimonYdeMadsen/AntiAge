@@ -2,6 +2,7 @@
 using AntiAge.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using AntiAge.Data.Identity;
 
 namespace AntiAge.Data
 {
@@ -72,12 +73,13 @@ namespace AntiAge.Data
                 entity.Property(e => e.Triglycerides).HasColumnType("decimal(5,2)");
                 entity.Property(e => e.Vo2Max).HasColumnType("decimal(5,2)");
                 entity.Property(e => e.WeightKg).HasColumnType("decimal(5,2)");
+
+                entity
+                    .HasOne(h => h.User)
+                    .WithMany(u => u.HealthMetrics)
+                    .HasForeignKey(h => h.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
-            modelBuilder.Entity<HealthMetric>()
-                .HasOne(h => h.User)
-                .WithMany(u => u.HealthMetrics)
-                .HasForeignKey(h => h.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipe>(entity =>
             {
@@ -100,10 +102,10 @@ namespace AntiAge.Data
                 entity.Property(e => e.Unit).HasMaxLength(50);
 
                 entity
-                .HasOne(ri => ri.Recipe)
-                .WithMany(r => r.RecipeIngredients)
-                .HasForeignKey(ri => ri.RecipeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                    .HasOne(ri => ri.Recipe)
+                    .WithMany(r => r.RecipeIngredients)
+                    .HasForeignKey(ri => ri.RecipeId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Workout>(entity =>

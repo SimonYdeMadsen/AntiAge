@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using AntiAge.Controllers.Dto;
 using AntiAge.Data;
-using AntiAge.Data.Entities;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using AntiAge.Data.Identity;
 
 namespace AntiAge.Controllers;
 
@@ -53,24 +53,13 @@ public class UserController : ControllerBase
     public async Task<ActionResult<HealthMetricDto>> GetUserHealthMetrics()
     {
 
-        var userStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        string? userStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userStr) || !int.TryParse(userStr, out int userId))
         {
             return Unauthorized("No user ID found in token");
         }
 
-        // Debug all claims in the token
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        foreach (var claim in claims)
-        {
-            Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-        }
-        //var user = _context.Users.Where(u => u.Id == userId);
-
-
-        var x = await _context.HealthMetrics.ToListAsync();
-
-        User user = _context.Users.SingleOrDefault(u => u.Id == userId);
+        User? user = _context.Users.SingleOrDefault(u => u.Id == userId);
         if (user is null)
         {
             return NotFound($"No user registered for {userId}");

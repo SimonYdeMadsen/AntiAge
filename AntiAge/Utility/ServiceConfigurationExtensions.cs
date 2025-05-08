@@ -74,6 +74,8 @@ namespace AuthTest.Utility
             {
                 services.AddSwaggerGen(c =>
                 {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AntiAge API", Version = "v1" });
+
                     c.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Cookie,

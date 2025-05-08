@@ -9,6 +9,10 @@ namespace AntiAge.Utility
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var dbContext = serviceScope.ServiceProvider.GetService<AntiAgeContext>();
+            if (dbContext == null)
+            {
+                throw new InvalidOperationException("The database context could not be resolved.");
+            }
             dbContext.Database.Migrate();
         }
     }

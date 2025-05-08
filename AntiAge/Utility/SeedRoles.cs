@@ -1,4 +1,4 @@
-﻿using AntiAge.Data.Entities;
+﻿using AntiAge.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace AntiAge.Utility
