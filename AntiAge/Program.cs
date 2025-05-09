@@ -51,7 +51,7 @@ builder.Services.AddIdentityCore<User>()
 
 builder.Services.AddDbContext<AntiAgeContext>(options =>
     //options.UseNpgsql(builder.Configuration.GetConnectionString("SupabaseDb"), 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineConnection"),
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalSqlConnection"),
     sqlOptions => sqlOptions.EnableRetryOnFailure(1)
 ));
 

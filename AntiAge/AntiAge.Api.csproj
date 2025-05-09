@@ -30,4 +30,8 @@
       <Folder Include="Services\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AntiAge.Shared.Dtos\AntiAge.Shared.Dtos.csproj" />
+    </ItemGroup>
+
 </Project>

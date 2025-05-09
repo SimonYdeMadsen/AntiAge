@@ -1,16 +1,12 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using AntiAge.Controllers.Dto;
 using AntiAge.Data;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
 using AntiAge.Data.Identity;
+using AntiAge.Shared.Dtos;
 
 namespace AntiAge.Controllers;
 
@@ -32,6 +28,21 @@ public class UserController : ControllerBase
         _configuration = configuration;
         _logger = logger;
     }
+
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserDto>> GetUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return new UserDto { Email = user.Email , UserId = user.Id };
+    }
+
 
     [HttpGet("viewUsers")]
     public IActionResult ViewUsers()
