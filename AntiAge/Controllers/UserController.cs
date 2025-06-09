@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AntiAge.Controllers.Dto;
 using AntiAge.Data;
 using AntiAge.Data.Identity;
 using AntiAge.Shared.Dtos;
 
 namespace AntiAge.Controllers;
 
+[Authorize]
 [ApiController]
-[Route("Users")]
+[Route("user")]
 public class UserController : ControllerBase
 {
     private readonly AntiAgeContext _context;
@@ -29,61 +29,71 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<UserDto>> GetUser(int id)
+    [HttpGet("healthmetrics/count")]
+    public async Task<ActionResult<int>> GetUserHealthMetricsCount()
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = GetUserFromClaims();
+        if (user is null) return Unauthorized();
 
-        if (user == null)
-        {
-            return NotFound();
-        }
+        int count = await _context.HealthMetrics
+            .Where(m => m.UserId == user.Id)
+            .CountAsync();
 
-        return new UserDto { Email = user.Email , UserId = user.Id };
+        return count;
     }
 
-
-    [HttpGet("viewUsers")]
-    public IActionResult ViewUsers()
+   [HttpGet("healthmetrics")]
+    public async Task<ActionResult<HealthMetricDto>> GetUserHealthMetrics(int page = 1, int pageSize = 20)
     {
-        // Return cookie?? Somehow create a session that is secure and only allow access to certain endpoints
-        if (!_context.Users.Any())
-        {
-            return Unauthorized("No users");
-        }
-        var users = _context.Users.ToList();
 
-        return users.Count > 0? Ok(users) : NotFound("No users");
+        var user = GetUserFromClaims();
+        if (user is null) return Unauthorized();
+
+        int pagesToSkip = (page-1) * pageSize;
         
+        var healthMetrics = await _context.HealthMetrics
+            .Where(m => m.UserId == user.Id)
+            .OrderBy(m => m.UserId)
+            .Skip(pagesToSkip)
+            .Take(pageSize)
+            .Select(m => new HealthMetricDto
+            {
+                BiologicalAge = m.BiologicalAge,
+                Bmi = m.Bmi,
+                DateRecorded = m.DateRecorded,
+                WeightKg = m.WeightKg,
+                BodyFatPercentage = m.BodyFatPercentage,
+                BloodPressureSystolic = m.BloodPressureSystolic,
+                BloodPressureDiastolic = m.BloodPressureDiastolic,
+                RestingHeartRate = m.RestingHeartRate,
+                BloodGlucose = m.BloodGlucose,
+                HdlCholesterol = m.HdlCholesterol,
+                LdlCholesterol = m.LdlCholesterol,
+                Triglycerides = m.Triglycerides,
+                Vo2Max = m.Vo2Max,
+                SleepHours = m.SleepHours,
+                StepsCount = m.StepsCount
+            }).ToListAsync();
+        return healthMetrics.Any() ? Ok(healthMetrics) : NotFound($"No health metrics found for ID {user.Id}");
     }
 
 
-    [Authorize]
-    [HttpGet("getUserHealthMetrics")]
-    public async Task<ActionResult<HealthMetricDto>> GetUserHealthMetrics()
+    private User? GetUserFromClaims()
     {
-
         string? userStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userStr) || !int.TryParse(userStr, out int userId))
         {
-            return Unauthorized("No user ID found in token");
+            _logger.LogError(new KeyNotFoundException(), "No user ID found in token");
+            return null;
         }
 
         User? user = _context.Users.SingleOrDefault(u => u.Id == userId);
         if (user is null)
         {
-            return NotFound($"No user registered for {userId}");
+            _logger.LogError(new KeyNotFoundException($"No user registered for {userId}"), $"No user registered for {userId}");
+            return null;
         }
 
-        var healthMetrics = await _context.HealthMetrics
-            .Where(m => m.UserId == userId)
-            .Select(m => new HealthMetricDto
-            {
-                UserId = userId,
-                BiologicalAge = m.BiologicalAge,
-                Bmi = m.Bmi,
-            }).ToListAsync();
-        return healthMetrics.Any() ? Ok(healthMetrics) : NotFound($"No health metrics found for ID {user.Id}");
+        return user;
     }
 }

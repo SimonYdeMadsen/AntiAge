@@ -1,0 +1,99 @@
+﻿@page "/profile"
+@using System.Net.Http.Headers
+@inject ApiService ApiService
+
+<div class="container">
+    <h1>User Health Dashboard</h1>
+
+    <!-- User Info Section -->
+    <div class="card" id="user-info">
+        <h3>User Information</h3>
+        <p><em>Data sourced from API</em></p>
+        <ul>
+            <li><strong>Name:</strong> @userInfo.FirstName</li>
+            <li><strong>Date of Birth:</strong> @userInfo.DateOfBirth</li>
+            <li><strong>Gender:</strong> @userInfo.Gender</li>
+            <li><strong>Height:</strong> @userInfo.HeightCm</li>
+        </ul>
+    </div>
+
+    <!-- Health Metrics Section -->
+    <div class="card" id="health-metrics">
+        <h3>Health Metrics</h3>
+        <p><em>Data sourced from API</em></p>
+        <ul>
+            @for (int i = 0; i < pageSize; i++)
+            {
+                
+                if (i < healthMetrics.Count)
+                {
+                    var metric = healthMetrics[i];
+                    <li class="metric-item">
+                        <span><strong>Weight:</strong> @metric.WeightKg kg</span>
+                        <span><strong>BMI:</strong> @metric.Bmi</span>
+                        <span><strong>Blood Pressure:</strong> @metric.BloodPressureSystolic/@metric.BloodPressureDiastolic mmHg</span>
+                        <span><strong>Heart Rate:</strong> @metric.RestingHeartRate bpm</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="metric-item">&nbsp;</li>
+                }
+            }
+        </ul>
+    </div>
+
+    <Pagination ActivePageNumber="@currentPageNumber" TotalPages="@totalPages" PageChanged="OnPageChangedAsync" />
+
+
+    <!-- Health Goals Section -->
+    <div class="card" id="health-goals">
+        <h3>Health Goals</h3>
+        <p><em>Data sourced from API</em></p>
+        <ul>
+            @foreach (var goal in healthGoals)
+            {
+                <li>
+                    <strong>@goal.Notes:</strong> @goal.Status (Target: @goal.TargetDate)
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+@code{
+    private UserDto userInfo = new();
+    private List<HealthGoalDto> healthGoals = new List<HealthGoalDto>();
+    private List<HealthMetricDto> healthMetrics = new List<HealthMetricDto>();
+
+    private int currentPageNumber = 1;
+    private int totalPages = 1;
+    private int pageSize = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await UpdateHealthMetrics();
+
+        
+        int count = await ApiService.GetAsync<int>("/user/healthmetrics/count");
+        totalPages = Math.Max((int)Math.Ceiling((double)count / pageSize), 1);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnPageChangedAsync(int newPageNumber)
+    {
+        
+        await Task.Run(() => { currentPageNumber = newPageNumber; });
+        await UpdateHealthMetrics();
+    }
+
+    private async Task UpdateHealthMetrics()
+    {
+        healthMetrics = await ApiService.GetAsync<List<HealthMetricDto>>($"/user/healthmetrics?page={currentPageNumber}&pageSize={pageSize}");
+    }
+
+    
+}

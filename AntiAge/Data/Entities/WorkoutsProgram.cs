@@ -1,6 +1,9 @@
-﻿using AntiAge.Data.Identity;
+using AntiAge.Data.Identity;
 using System;
 using System.Collections.Generic;
+using AntiAge.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AntiAge.Data.Entities;
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AntiAge.Data;
 using AntiAge.Data.Entities;
-using AntiAge.Controllers.Dto;
+using AntiAge.Shared.Dtos;
 
 namespace AntiAge.Controllers
 {

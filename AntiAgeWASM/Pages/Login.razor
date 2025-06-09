@@ -1,0 +1,37 @@
+﻿@page "/login"
+@inject AuthService AuthService
+<h3>Login</h3>
+
+<button class="btn btn-primary" @onclick="AttemptLogin">Login</button>
+<EditForm Model="@loginModel" OnValidSubmit="AttemptLogin">
+    <InputText @bind-Value="loginModel.email" placeholder="Email" />
+    <InputText @bind-Value="loginModel.password" type="password" placeholder="Password" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+<div>Is logged in: @AuthService.IsAuthenticated</div>
+
+@code {
+    
+
+    private LoginModel loginModel = new();
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+
+    private async Task AttemptLogin()
+    {
+        string token = await AuthService.Login(loginModel.email, loginModel.password);
+
+    }
+
+    private class LoginModel
+    {
+        public string email { get; set; }
+        public string password { get; set; }
+    }
+}

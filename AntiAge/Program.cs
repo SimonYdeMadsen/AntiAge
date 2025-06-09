@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-var serviceConfig = ServiceConfigurationExtensions.ServiceConfig.Cookie;
+var serviceConfig = ServiceConfigurationExtensions.ServiceConfig.Bearer;
 builder.Services.ConfigureAuthentication(serviceConfig);
 builder.Services.ConfigureAuthorization(serviceConfig);
 builder.Services.ConfigureSwagger(serviceConfig);
@@ -41,6 +41,17 @@ builder.Services.ConfigureSwagger(serviceConfig);
 }
 */
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins("https://localhost:7012")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddIdentityCore<User>()
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<AntiAgeContext>()
@@ -58,7 +69,7 @@ builder.Services.AddDbContext<AntiAgeContext>(options =>
 builder.Services.AddScoped<DataImporter>();
 
 var app = builder.Build();
-
+app.UseCors("AllowLocalhost");
 app.UseSwagger();
 app.UseSwaggerUI();
 
