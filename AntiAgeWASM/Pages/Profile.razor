@@ -2,6 +2,7 @@
 @using System.Net.Http.Headers
 @inject ApiService ApiService
 
+
 <div class="container">
     <h1>User Health Dashboard</h1>
 
@@ -22,22 +23,29 @@
         <h3>Health Metrics</h3>
         <p><em>Data sourced from API</em></p>
         <ul>
-            @for (int i = 0; i < pageSize; i++)
+            @if (healthMetrics == null)
             {
+                <Spinner />
+            }
+            else
+            {
+                @for (int i = 0; i < pageSize; i++)
+                {
                 
-                if (i < healthMetrics.Count)
-                {
-                    var metric = healthMetrics[i];
-                    <li class="metric-item">
-                        <span><strong>Weight:</strong> @metric.WeightKg kg</span>
-                        <span><strong>BMI:</strong> @metric.Bmi</span>
-                        <span><strong>Blood Pressure:</strong> @metric.BloodPressureSystolic/@metric.BloodPressureDiastolic mmHg</span>
-                        <span><strong>Heart Rate:</strong> @metric.RestingHeartRate bpm</span>
-                    </li>
-                }
-                else
-                {
-                    <li class="metric-item">&nbsp;</li>
+                    if (i < healthMetrics.Count)
+                    {
+                        var metric = healthMetrics[i];
+                        <li class="metric-item">
+                            <span><strong>Weight:</strong> @metric.WeightKg kg</span>
+                            <span><strong>BMI:</strong> @metric.Bmi</span>
+                            <span><strong>Blood Pressure:</strong> @metric.BloodPressureSystolic/@metric.BloodPressureDiastolic mmHg</span>
+                            <span><strong>Heart Rate:</strong> @metric.RestingHeartRate bpm</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="metric-item">&nbsp;</li>
+                    }
                 }
             }
         </ul>

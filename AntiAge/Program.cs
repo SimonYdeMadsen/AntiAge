@@ -1,5 +1,6 @@
 
 using AntiAge;
+using AntiAge.Api.Data;
 using AntiAge.Data;
 using AntiAge.Data.Identity;
 using AntiAge.Utility;
@@ -7,7 +8,6 @@ using AuthTest.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Supabase;
 using System.Data;
 using System.Xml;
 
@@ -67,6 +67,7 @@ builder.Services.AddDbContext<AntiAgeContext>(options =>
 ));
 
 builder.Services.AddScoped<DataImporter>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 app.UseCors("AllowLocalhost");
