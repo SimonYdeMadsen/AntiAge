@@ -13,8 +13,16 @@ using System.Xml;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+// Acquire password from environment variables
+var connectionString = builder.Configuration.GetConnectionString("LocalSqlConnection");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? 
+    throw new InvalidOperationException("Environment variable DB_PASSWORD is not set.");
+connectionString = connectionString!.Replace("{DB_PASSWORD}", password);
+
+
+
+// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -59,12 +67,10 @@ builder.Services.AddIdentityCore<User>()
     .AddDefaultTokenProviders();
 
 
-
 builder.Services.AddDbContext<AntiAgeContext>(options =>
-    //options.UseNpgsql(builder.Configuration.GetConnectionString("SupabaseDb"), 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalSqlConnection"),
-    sqlOptions => sqlOptions.EnableRetryOnFailure(1)
-));
+    //options.UseNpgsql(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure(1)), 
+    options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure(1))
+);
 
 builder.Services.AddScoped<DataImporter>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
