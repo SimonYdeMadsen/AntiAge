@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiAge.Shared", "AntiAge.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiAgeWASM", "AntiAgeWASM\AntiAgeWASM.csproj", "{4C2C5FC4-C995-4EE2-A212-B36B842E4458}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiAge.Tests", "AntiAge.Tests\AntiAge.Tests.csproj", "{D07FEBB3-A045-4113-AFE1-2C63D3DEDB8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4C2C5FC4-C995-4EE2-A212-B36B842E4458}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C2C5FC4-C995-4EE2-A212-B36B842E4458}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C2C5FC4-C995-4EE2-A212-B36B842E4458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D07FEBB3-A045-4113-AFE1-2C63D3DEDB8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D07FEBB3-A045-4113-AFE1-2C63D3DEDB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D07FEBB3-A045-4113-AFE1-2C63D3DEDB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D07FEBB3-A045-4113-AFE1-2C63D3DEDB8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
