@@ -1,0 +1,45 @@
+recipe_id,ingredient_name,quantity,unit
+1,Rolled Oats,0.5,cup
+1,Almond Milk,0.75,cup
+1,Greek Yogurt,0.25,cup
+1,Honey,1,tablespoon
+1,Mixed Berries,0.5,cup
+1,Chia Seeds,1,tablespoon
+1,Sliced Almonds,1,tablespoon
+2,Chicken Breast,200,grams
+2,Mixed Greens,4,cups
+2,Cherry Tomatoes,10,pieces
+2,Cucumber,0.5,piece
+2,Red Bell Pepper,0.5,piece
+2,Feta Cheese,30,grams
+2,Olive Oil,2,tablespoons
+2,Balsamic Vinegar,1,tablespoon
+2,Dijon Mustard,1,teaspoon
+2,Dried Oregano,0.5,teaspoon
+3,Salmon Fillet,300,grams
+3,Bell Peppers,2,pieces
+3,Zucchini,1,piece
+3,Red Onion,1,piece
+3,Olive Oil,2,tablespoons
+3,Lemon,1,piece
+3,Garlic,2,cloves
+3,Dried Thyme,1,teaspoon
+3,Salt,0.5,teaspoon
+3,Black Pepper,0.25,teaspoon
+4,Spinach,2,cups
+4,Banana,1,piece
+4,Green Apple,1,piece
+4,Celery,1,stalk
+4,Ginger,1,teaspoon
+4,Protein Powder,1,scoop
+4,Almond Milk,1,cup
+4,Ice Cubes,0.5,cup
+5,Whole Grain Wrap,1,piece
+5,Turkey Slices,100,grams
+5,Avocado,0.5,piece
+5,Lettuce,1,cup
+5,Tomato,0.5,piece
+5,Feta Cheese,20,grams
+5,Lime Juice,1,teaspoon
+5,Salt,0.25,teaspoon
+5,Black Pepper,0.25,teaspoon

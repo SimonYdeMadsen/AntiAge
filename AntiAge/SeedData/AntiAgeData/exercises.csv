@@ -1,0 +1,16 @@
+exercise_id,exercise_name,description,muscle_group,equipment_needed,difficulty_level,demo_video_url
+1,Squat,A compound exercise that primarily targets the quadriceps hamstrings and glutes.,legs,bodyweight or barbell,beginner,https://example.com/videos/squat.mp4
+2,Push-up,An upper body exercise that works the chest shoulders and triceps.,chest,bodyweight,beginner,https://example.com/videos/pushup.mp4
+3,Deadlift,A compound movement that works the entire posterior chain.,back,barbell or dumbbells,intermediate,https://example.com/videos/deadlift.mp4
+4,Plank,An isometric core exercise that also engages the shoulders and glutes.,core,bodyweight,beginner,https://example.com/videos/plank.mp4
+5,Burpee,A full-body exercise that combines a squat push-up and jump.,full body,bodyweight,intermediate,https://example.com/videos/burpee.mp4
+6,Lunge,A unilateral exercise that targets the quadriceps hamstrings and glutes.,legs,bodyweight or dumbbells,beginner,https://example.com/videos/lunge.mp4
+7,Pull-up,An upper body pulling exercise that works the back and biceps.,back,pull-up bar,intermediate,https://example.com/videos/pullup.mp4
+8,Mountain Climber,A dynamic exercise that targets the core while elevating heart rate.,core,bodyweight,beginner,https://example.com/videos/mountainclimber.mp4
+9,Shoulder Press,An upper body pushing exercise that targets the shoulders and triceps.,shoulders,dumbbells or barbell,beginner,https://example.com/videos/shoulderpress.mp4
+10,Russian Twist,A rotational exercise that targets the obliques.,core,bodyweight or medicine ball,beginner,https://example.com/videos/russiantwist.mp4
+11,Bent-over Row,A pulling exercise that targets the back and biceps.,back,dumbbells or barbell,intermediate,https://example.com/videos/bentoverrow.mp4
+12,Glute Bridge,An exercise that targets the glutes and hamstrings.,glutes,bodyweight or barbell,beginner,https://example.com/videos/glutebridge.mp4
+13,Kettlebell Swing,A dynamic exercise that targets the posterior chain and cardiovascular system.,full body,kettlebell,intermediate,https://example.com/videos/kettlebellswing.mp4
+14,Bicycle Crunch,A dynamic core exercise that targets the rectus abdominis and obliques.,core,bodyweight,beginner,https://example.com/videos/bicyclecrunch.mp4
+15,Jump Rope,A cardiovascular exercise that improves coordination and endurance.,cardio,jump rope,beginner,https://example.com/videos/jumprope.mp4

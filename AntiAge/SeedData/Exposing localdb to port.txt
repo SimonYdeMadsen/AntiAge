@@ -1,0 +1,8 @@
+- Configuration Manager: Set network/tcp-ip/ to enabled and set port to non-dynamic instead of dynamic. 
+- Create Logins, add UserMapping or just set all privileges. 
+- Confirm Localdb connection using SQL Authentication now. 
+- (Possibly expose port in firewall inbound)
+- Use login in connection string.
+
+
+In the end, this is a bad approach. 

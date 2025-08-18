@@ -1,0 +1,25 @@
+goal_id,user_id,goal_type,target_value,start_date,target_date,status,notes
+1,1,weight,78.0,2025-01-01,2025-04-01,active,Lose weight gradually through diet and exercise
+2,1,steps,12000,2025-01-01,2025-03-01,completed,Increase daily step count for cardiovascular health
+3,1,blood_pressure,115,2025-02-01,2025-05-01,active,Target systolic blood pressure through diet and stress management
+4,2,weight,60.0,2025-01-15,2025-04-15,active,Reach target weight through balanced nutrition and strength training
+5,2,body_fat,21.0,2025-01-15,2025-06-15,active,Reduce body fat percentage while maintaining muscle mass
+6,2,sleep,8.0,2025-02-01,2025-03-01,completed,Improve sleep quality and duration
+7,3,weight,82.0,2025-01-10,2025-07-10,active,Gradual weight loss through dietary changes and increased activity
+8,3,blood_glucose,5.0,2025-01-10,2025-04-10,active,Reduce blood glucose levels through diet modifications
+9,3,cholesterol,110,2025-01-10,2025-07-10,active,Lower LDL cholesterol through diet and possibly medication
+10,3,steps,8000,2025-02-01,2025-04-01,active,Increase daily activity level
+11,4,steps,10000,2025-01-05,2025-03-05,completed,Daily step goal for overall fitness
+12,4,weight,58.0,2025-02-01,2025-05-01,active,Maintain healthy weight through balanced diet
+13,5,muscle_mass,45.0,2025-01-20,2025-06-20,active,Increase muscle mass through strength training program
+14,5,vo2_max,40.0,2025-02-15,2025-08-15,active,Improve cardiovascular fitness through structured cardio training
+15,6,flexibility,10,2025-01-15,2025-04-15,active,Improve flexibility through yoga and stretching routines
+16,6,resting_heart_rate,60,2025-02-01,2025-05-01,active,Lower resting heart rate through cardio training
+17,7,blood_pressure,120,2025-01-10,2025-07-10,active,Manage blood pressure for heart health
+18,7,triglycerides,80,2025-01-10,2025-07-10,active,Reduce triglyceride levels through dietary changes
+19,8,weight,60.0,2025-01-05,2025-04-05,abandoned,Initial weight loss goal - abandoned due to pregnancy
+20,8,nutrition,5,2025-02-10,2025-08-10,active,Eat 5 servings of vegetables daily for prenatal health
+21,9,biological_age,45.0,2025-01-15,2025-12-15,active,Reduce biological age through comprehensive lifestyle changes
+22,9,stress,3,2025-02-01,2025-05-01,active,Reduce stress levels through meditation and work-life balance
+23,10,strength,45.0,2025-01-10,2025-06-10,active,Increase bench press max to 45kg
+24,10,hydration,3,2025-02-01,2025-03-01,completed,Drink 3 liters of water daily

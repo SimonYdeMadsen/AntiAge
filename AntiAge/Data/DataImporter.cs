@@ -24,16 +24,18 @@ namespace AntiAge
 
         public void ImportDummyData()
         {
-            ImportData<BioAgeFactor>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\bio-age-factors.csv");
-            ImportData<Exercise>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\exercises.csv");
-            ImportData<HealthGoal>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\health-goals.csv");
-            ImportData<HealthMetric>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\health-metrics.csv");
-            ImportData<Recipe>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\recipes.csv");
-            ImportData<RecipeIngredient>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\recipe-ingredients.csv");
-            ImportData<Workout>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\workouts.csv");
-            ImportData<WorkoutExercise>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\workout-exercises.csv");
-            ImportData<WorkoutsLog>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\workout-logs.csv");
-            ImportData<WorkoutsProgram>("C:\\Users\\symig\\Desktop\\AntiAge\\AntiAgeData\\workout-programs.csv");
+            string dataFolder = Path.Combine(AppContext.BaseDirectory, "SeedData");
+
+            ImportData<BioAgeFactor>(dataFolder + "bio-age-factors.csv");
+            ImportData<Exercise>(dataFolder + "exercises.csv");
+            ImportData<HealthGoal>(dataFolder + "health-goals.csv");
+            ImportData<HealthMetric>(dataFolder + "health-metrics.csv");
+            ImportData<Recipe>(dataFolder + "recipes.csv");
+            ImportData<RecipeIngredient>(dataFolder + "recipe-ingredients.csv");
+            ImportData<Workout>(dataFolder + "workouts.csv");
+            ImportData<WorkoutExercise>(dataFolder + "workout-exercises.csv");
+            ImportData<WorkoutsLog>(dataFolder + "workout-logs.csv");
+            ImportData<WorkoutsProgram>(dataFolder + "workout-programs.csv");
         }
 
         public void ImportData<T>(string filePath) where T : class

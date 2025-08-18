@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <Folder Include="Data\Entities\" />
+      <Folder Include="SeedData\" />
       <Folder Include="Properties\ServiceDependencies\" />
       <Folder Include="Services\" />
     </ItemGroup>

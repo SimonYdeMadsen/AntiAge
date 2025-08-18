@@ -1,0 +1,33 @@
+------------------ DATABASE/EXCEL ----------------------
+Generally, transform data from Excel by: 
+- Extract using SELECT
+- Make a custom map with remapping to unique IDs
+- Update column with ALTER
+- Insert new data at sequential index
+
+
+
+
+------------------ USER ----------------------
+
+User:
+- decode JWT to get userId
+- access db using userId
+
+Look up recent security guidelines. 
+
+
+--------------------------- LEKTIER --------------
+
+Find ud af pris for Azure 
+Find ud af pris for Website
+
+Database kapaciteter (scalability)
+- Postgres
+- Msql 
+
+
+Max columns in database? 
+
+
+Hvilket dataformat vil jeg ha? Excel (CSV), not JSON.

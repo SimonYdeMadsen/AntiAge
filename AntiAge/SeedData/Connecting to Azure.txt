@@ -1,0 +1,8 @@
+What worked was to change Visual Studio to use the browser instead. 
+	Now VS logs in using MS-acc, which is evidently linked to Azure
+
+Azure CLI: 
+	az login --use-device-code
+
+
+SQL: server name, entra default: ydemadsen_gmail.com#EXT#@ydemadsengmail.onmicrosoft.com

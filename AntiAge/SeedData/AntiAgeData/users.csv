@@ -1,0 +1,11 @@
+user_id,username,email,password_hash,first_name,last_name,date_of_birth,gender,height_cm,created_at,last_login
+1,johndoe,john.doe@example.com,hashed_password_1,John,Doe,1985-03-15,Male,183,2023-11-01 14:22:11,2025-03-28 08:15:32
+2,janedoe,jane.doe@example.com,hashed_password_2,Jane,Doe,1990-07-22,Female,168,2023-11-02 09:10:05,2025-03-29 10:25:19
+3,michaelsmith,michael.smith@example.com,hashed_password_3,Michael,Smith,1978-11-30,Male,178,2023-11-05 16:45:22,2025-03-27 16:30:00
+4,sarahwilliams,sarah.williams@example.com,hashed_password_4,Sarah,Williams,1992-04-18,Female,165,2023-11-10 11:12:34,2025-03-28 19:45:12
+5,robertjohnson,robert.johnson@example.com,hashed_password_5,Robert,Johnson,1980-09-05,Male,188,2023-11-15 08:50:44,2025-03-29 07:10:23
+6,emilybrown,emily.brown@example.com,hashed_password_6,Emily,Brown,1995-02-12,Female,172,2023-11-20 15:18:09,2025-03-27 12:33:51
+7,davidwilson,david.wilson@example.com,hashed_password_7,David,Wilson,1965-06-30,Male,179,2023-12-01 10:11:13,2025-03-28 14:22:37
+8,lisadavis,lisa.davis@example.com,hashed_password_8,Lisa,Davis,1988-12-24,Female,163,2023-12-05 13:40:55,2025-03-29 11:05:48
+9,thomasmiller,thomas.miller@example.com,hashed_password_9,Thomas,Miller,1973-08-17,Male,182,2023-12-10 09:30:27,2025-03-27 20:15:09
+10,amandataylor,amanda.taylor@example.com,hashed_password_10,Amanda,Taylor,1998-10-09,Female,170,2023-12-15 17:22:38,2025-03-28 15:40:21

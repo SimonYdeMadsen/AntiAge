@@ -1,0 +1,4 @@
+- Open Ngrok
+- ngrok http https://localhost:7230  
+- Connect to generated endpoint
+- Make sure uri is valid
